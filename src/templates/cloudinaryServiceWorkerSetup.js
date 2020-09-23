@@ -10,7 +10,7 @@ if (navigator.serviceWorker) {
   const config = {
     clientMetrics: {
       viewportWidth: window.innerWidth,
-      dpr: window.devicePixelRatio || 1,
+      // dpr: window.devicePixelRatio || 1, // <----------- Correct DPR
     },
     enabled: true,
     inspection: {
@@ -21,13 +21,13 @@ if (navigator.serviceWorker) {
       cloudName: 'demo'
     },
     optimization: {
-      quality: 'auto',
-      format: 'auto',
-      limitMaxWidth: false, // <----------- Limit Max Width based on ViewPort
+      // quality: 'auto',       // <----------- Auto q_auto
+      // format: 'auto',        // <----------- Auto f_auto
+      // limitMaxWidth: true,   // <----------- Limit Max Width based on ViewPort
       additionalRawTransfomrationString: ''
     },
   }
-  navigator.serviceWorker.register(`./cloudinaryServiceWorker.js?config=${JSON.stringify(config)}`);
+  navigator.serviceWorker.register(`./sw.js?config=${JSON.stringify(config)}`);
 
   /**
    * Anything below this point is fluff! not needed for it to actually work
@@ -37,14 +37,7 @@ if (navigator.serviceWorker) {
 
   navigator.serviceWorker.addEventListener('message', event => {
     try {
-
-      // resourcesLoaded: 2
-      // resourcesSkipped: 4
-      // totalOptimizedSize: 15934
-      // totalOriginalSize: 184737
-
       let analyticsData = JSON.parse(event.data);
-      console.log(analyticsData);
 
       document.getElementById('cloudinary-analytics').innerHTML = `
 <span>Assets:${analyticsData.resourcesLoaded.toLocaleString()}</span> 
@@ -57,7 +50,6 @@ if (navigator.serviceWorker) {
   });
 
   // Send a message to the service worker
-  console.log('Sending a message');
   navigator.serviceWorker.ready.then(registration => {
     const analyticsDiv = document.createElement('div');
     analyticsDiv.setAttribute('id', 'cloudinary-analytics');
