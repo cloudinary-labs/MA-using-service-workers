@@ -3,12 +3,13 @@ let client = null;
 
 const config = JSON.parse(new URL(location).searchParams.get('config'));
 
-const {optimization, enabled, delivery, inspection} = config;
+console.log(config);
+
+const {optimization, enabled, delivery, inspection, clientMetrics} = config;
 
 const {cname, cloudName} = delivery;
-const {quality, format, dpr, additionalRawTransfomrationString} = optimization;
+const {quality, format, additionalRawTransfomrationString, maxWidth, limitMaxWidth} = optimization;
 const {enableInspection} = inspection;
-
 
 const analytics = {
   totalOriginalSize: 0,
@@ -30,8 +31,12 @@ function wrapWithFetch(originalURL, noOptimization = false) {
     keys.push(`f_${format}`);
   }
 
-  if (dpr) {
-    keys.push(`dpr_${dpr}`);
+  if (clientMetrics.dpr) {
+    keys.push(`dpr_${clientMetrics.dpr}`);
+  }
+
+  if (limitMaxWidth) {
+    keys.push(`c_limit,w_${clientMetrics.viewportWidth}`);
   }
 
   if (additionalRawTransfomrationString) {
@@ -92,38 +97,51 @@ self.addEventListener('fetch', (e) => {
         return fetch(e.request);
       }
 
-      // try to verify the resource type before fetching through cloudinary
-      // images don't have to end with a .png or .jpg
-      console.log('Making head request');
-      const headResponse = await fetch(e.request.url, {
-        method: 'HEAD'
-      });
 
-      // If we aren't sure what resource type it is, just
-      if (headResponse.type === 'opaque') {
-        console.log('Found opaque response');
-        analytics.resourcesSkipped++;
+      if (e.request.destination !== 'image') {
+        console.log(e.request.url);
+        // console.log('not an image request');
         return fetch(e.request);
       }
-      // if the resource is an image, try to fetch through cloudinary
-      if (headResponse.headers.get('Content-type').indexOf('image') >= 0) {
-        console.log('Content type is image');
-        const cloudinaryURL = wrapWithFetch(e.request.url);
 
 
-        analytics.resourcesLoaded++;
-        if (enableInspection) {
-          await collectSizeAnalytics(e.request.url);
-          reportAnalytics();
+
+      // Fetch through cloudianry
+
+      // Extend the headers
+      const modifiedHeaders = new Headers( e.request.headers );
+
+      if ( navigator.connection ) {
+        if ( navigator.connection.downlink ) {
+          modifiedHeaders.set( 'Downlink', navigator.connection.downlink );
         }
-
-        console.log('Loading cloudinary!');
-        return fetch(cloudinaryURL);
-      } else {
-        // else, just bring the original asset
-        analytics.resourcesSkipped++;
-        return fetch(e.request);
+        if ( navigator.connection.rtt) {
+          modifiedHeaders.set( 'RTT', navigator.connection.rtt );
+        }
+        if ( navigator.connection.effectiveType) {
+          modifiedHeaders.set( 'ECT', navigator.connection.effectiveType );
+        }
       }
+
+      if ( clientMetrics.dpr ) {
+        modifiedHeaders.set( 'DPR', clientMetrics.dpr );
+      }
+
+      // Make a new request from the headers
+      const modifiedRequest = new Request( wrapWithFetch( e.request.url ), {
+        headers: modifiedHeaders
+      } );
+
+
+      analytics.resourcesLoaded++;
+      if (enableInspection) {
+        await collectSizeAnalytics(e.request.url);
+        reportAnalytics();
+      }
+
+      console.log('Loading cloudinary!', e.request.url);
+      console.log(analytics.resourcesLoaded);
+      return fetch(modifiedRequest);
     })());
   }
 );

@@ -5,7 +5,6 @@ const images = [
   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/BBH_gravitational_lensing_of_gw150914.webm/266px--BBH_gravitational_lensing_of_gw150914.webm.jpg',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Spacetime_lattice_analogy.svg/440px-Spacetime_lattice_analogy.svg.png',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/2014.03.09.-23-Kaefertaler_Wald-Mannheim-Fruehlings-Scharbockskraut.jpg/1000px-2014.03.09.-23-Kaefertaler_Wald-Mannheim-Fruehlings-Scharbockskraut.jpg'
-
 ];
 
 
@@ -24,7 +23,15 @@ function addImage() {
  * CLIENT CODE
  */
 if (navigator.serviceWorker) {
+  /**
+   *
+   * Start configuration!
+   */
   const config = {
+    clientMetrics: {
+      viewportWidth: window.innerWidth,
+      dpr: window.devicePixelRatio || 1,
+    },
     enabled: true,
     inspection: {
       enableInspection: true
@@ -36,14 +43,11 @@ if (navigator.serviceWorker) {
     optimization: {
       quality: 'auto',
       format: 'auto',
-      dpr: window.devicePixelRatio || 1,
-      additionalRawTransfomrationString: 'c_limit,w_200'
+      limitMaxWidth: false, // <----------- Limit Max Width based on ViewPort
+      additionalRawTransfomrationString: ''
     },
   }
   navigator.serviceWorker.register(`./sw.js?config=${JSON.stringify(config)}`);
-
-
-
 
   /**
    * Anything below this point is fluff! not needed for it to actually work
