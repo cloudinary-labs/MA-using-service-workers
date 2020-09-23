@@ -27,7 +27,7 @@ if (navigator.serviceWorker) {
       additionalRawTransfomrationString: ''
     },
   }
-  navigator.serviceWorker.register(`./sw.js?config=${JSON.stringify(config)}`);
+  navigator.serviceWorker.register(`./cloudinaryServiceWorker.js?config=${JSON.stringify(config)}`);
 
   /**
    * Anything below this point is fluff! not needed for it to actually work

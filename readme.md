@@ -1,26 +1,55 @@
-### Using service workers with Cloudinary!
+## Using service workers with Cloudinary!
 
-#### How to setup a demo
+### What's inside?
+The main directory consists of an `index.js` script and the `templates` directory containing service worker file and its configuration.
 
+This is published to NPM as `create-cloudinary-service-worker` allowing it to be run with the `npx` or `yarn create` commands.
+
+Example:
 ```bash
-git clone
+yarn create cloudinary-service-worker
+npx create-cloudinary-service-worker
 ```
 
+Those commands will copy the service worker files to the desired location (working directory by default, can be overriden with `-p` | `--path` parameter).
+
+Example:
 ```bash
+yarn create cloudinary-service-worker --path my-app/src
+npx create-cloudinary-service-worker --path my-app/src
+```
+
+The script accepts also a `--verbose` flag to provide additional runtime information. See `--help` for more options.
+
+### Demo project
+Besides the main package this repository contains also the demo application showing the example use case. It includes a small website with images that does not use Cloudinary. You can run it locally, use the `create-cloudinary-service-worker` script and enable it to see the difference.
+
+In order to check it yourself please clone this repository and run the following.
+
+```bash
+cd demo
+yarn
+yarn start
+
+# if you prefer to use npm please run the following
+cd demo
 npm install
-```
-
-```bash
 npm start
 ```
 
-Demo website is located in ./demo/website</br>
-Service Worker code is located in src/sw.js </br>
+You should have a working page without service workers running locally. In order to enhance it with the power of the Cloudinary service worker run the following:
 
-If you make changes to sw.js and you want to see them in the demo,
-you'll need to run an NPM command
 ```bash
-npm run copySW
+yarn create cloudinary-service-worker --path website
+
+# if you prefer to use npm please run the following
+npx create-cloudinary-service-worker --path website
 ```
 
-That's required for any change done
+The service worker is now copied to your (demo) project directory. Please edit `index.html` and add the service worker setup script `cloudinaryServiceWorkerSetup.js`.
+
+```html
+<script src="./cloudinaryServiceWorkerSetup.js"></script>
+```
+
+You're done! Once you refresh the page the service worker should be registered. Once you refresh the page for the second time all assets will be served through cloudinary. You can edit the config JSON inside the `cloudinaryServiceWorkerSetup.js` file to customize the behaviour.
