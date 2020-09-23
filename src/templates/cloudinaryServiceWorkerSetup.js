@@ -10,7 +10,7 @@ if (navigator.serviceWorker) {
   const config = {
     clientMetrics: {
       viewportWidth: window.innerWidth,
-      // dpr: window.devicePixelRatio || 1, // <----------- Correct DPR
+      dpr: window.devicePixelRatio || 1, // <----------- Correct DPR
     },
     enabled: true,
     inspection: {
@@ -21,9 +21,9 @@ if (navigator.serviceWorker) {
       cloudName: 'demo'
     },
     optimization: {
-      // quality: 'auto',       // <----------- Auto q_auto
-      // format: 'auto',        // <----------- Auto f_auto
-      // limitMaxWidth: true,   // <----------- Limit Max Width based on ViewPort
+      quality: 'auto',       // <----------- Auto q_auto
+      format: 'auto',        // <----------- Auto f_auto
+      limitMaxWidth: true,   // <----------- Limit Max Width based on ViewPort
       additionalRawTransfomrationString: ''
     },
   }
