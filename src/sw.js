@@ -94,6 +94,9 @@ self.addEventListener('fetch', (e) => {
 
 
 
+
+
+
       // Fetch through cloudianry
 
       // Extend the headers
