@@ -1,0 +1,24 @@
+{
+  "name": "MA-using-service-workers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run copySW && live-server ./demo/website",
+    "copySW": "cp src/sw.js ./demo/website/sw.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudinary-devs/MA-using-service-workers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cloudinary-devs/MA-using-service-workers/issues"
+  },
+  "homepage": "https://github.com/cloudinary-devs/MA-using-service-workers#readme",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  }
+}
