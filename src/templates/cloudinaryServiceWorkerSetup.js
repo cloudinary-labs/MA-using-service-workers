@@ -43,7 +43,7 @@ if (navigator.serviceWorker) {
 <span>Assets:${analyticsData.resourcesLoaded.toLocaleString()}</span> 
 <span>Originals:${analyticsData.totalOriginalSize.toLocaleString()}</span> 
 <span>Optimized:${analyticsData.totalOptimizedSize.toLocaleString()}</span> 
-<span>Size footprint:${ Math.round((analyticsData.totalOptimizedSize  * 100/ analyticsData.totalOriginalSize))}%</span>`
+<span>Bytes saved:${ Math.round((analyticsData.totalOriginalSize - analyticsData.totalOptimizedSize) / analyticsData.totalOriginalSize * 100)}%</span>`
     } catch (e) {
 
     }

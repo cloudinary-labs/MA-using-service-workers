@@ -40,10 +40,10 @@ npm start
 You should have a working page without service workers running locally. In order to enhance it with the power of the Cloudinary service worker run the following:
 
 ```bash
-yarn create cloudinary-service-worker --path website
+yarn create cloudinary-service-worker
 
 # if you prefer to use npm please run the following
-npx create-cloudinary-service-worker --path website
+npx create-cloudinary-service-worker
 ```
 
 The service worker is now copied to your (demo) project directory. Please edit `index.html` and add the service worker setup script `cloudinaryServiceWorkerSetup.js`.
