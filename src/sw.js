@@ -3,8 +3,6 @@ let client = null;
 
 const config = JSON.parse(new URL(location).searchParams.get('config'));
 
-console.log(config);
-
 const {optimization, enabled, delivery, inspection, clientMetrics} = config;
 
 const {cname, cloudName} = delivery;
@@ -57,16 +55,9 @@ function shouldIntercept(e) {
  */
 async function collectSizeAnalytics(url) {
   // Fetch the regular image through cloudinary, no optimization
-  const cloudianryURL = wrapWithFetch(url, true)
-
   const optimizedResponse = await fetch(wrapWithFetch(url));
   const nonOptimizedResponse = await fetch(wrapWithFetch(url, true));
 
-
-  const length1 = optimizedResponse.headers.get('Content-Length');
-  const length2 = nonOptimizedResponse.headers.get('Content-Length');
-
-  console.log(length1, length2);
   analytics.totalOptimizedSize += +optimizedResponse.headers.get('Content-Length');
   analytics.totalOriginalSize += +nonOptimizedResponse.headers.get('Content-Length');
 }
@@ -92,15 +83,12 @@ self.addEventListener('fetch', (e) => {
     e.respondWith((async () => {
       // If we shouldn't intercept, just return the original request
       if (!shouldIntercept(e)) {
-        console.log('Should not intercept', e.request.url);
         analytics.resourcesSkipped++;
         return fetch(e.request);
       }
 
 
       if (e.request.destination !== 'image') {
-        console.log(e.request.url);
-        // console.log('not an image request');
         return fetch(e.request);
       }
 
@@ -124,8 +112,12 @@ self.addEventListener('fetch', (e) => {
       }
 
       if ( clientMetrics.dpr ) {
-        modifiedHeaders.set( 'DPR', clientMetrics.dpr );
+        modifiedHeaders.set('DPR', clientMetrics.dpr );
       }
+
+      modifiedHeaders.forEach((value, key) => {
+        console.log(key, value);
+      });
 
       // Make a new request from the headers
       const modifiedRequest = new Request( wrapWithFetch( e.request.url ), {
@@ -139,8 +131,6 @@ self.addEventListener('fetch', (e) => {
         reportAnalytics();
       }
 
-      console.log('Loading cloudinary!', e.request.url);
-      console.log(analytics.resourcesLoaded);
       return fetch(modifiedRequest);
     })());
   }

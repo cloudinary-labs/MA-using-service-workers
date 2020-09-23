@@ -1,17 +1,11 @@
-
 const images = [
   'https://upload.wikimedia.org/wikipedia/commons/1/1f/Wikipedia_mini_globe_handheld.jpg',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Carl_Friedrich_Gauss.jpg/340px-Carl_Friedrich_Gauss.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/BBH_gravitational_lensing_of_gw150914.webm/266px--BBH_gravitational_lensing_of_gw150914.webm.jpg',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Spacetime_lattice_analogy.svg/440px-Spacetime_lattice_analogy.svg.png',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/2014.03.09.-23-Kaefertaler_Wald-Mannheim-Fruehlings-Scharbockskraut.jpg/1000px-2014.03.09.-23-Kaefertaler_Wald-Mannheim-Fruehlings-Scharbockskraut.jpg'
 ];
 
-
-
 function addImage() {
-  console.log('CliCk');
-
   const img = document.createElement('img');
   img.src = images.pop();
   document
@@ -30,7 +24,7 @@ if (navigator.serviceWorker) {
   const config = {
     clientMetrics: {
       viewportWidth: window.innerWidth,
-      dpr: window.devicePixelRatio || 1,
+      // dpr: window.devicePixelRatio || 1, // <----------- Correct DPR
     },
     enabled: true,
     inspection: {
@@ -41,9 +35,9 @@ if (navigator.serviceWorker) {
       cloudName: 'demo'
     },
     optimization: {
-      quality: 'auto',
-      format: 'auto',
-      limitMaxWidth: false, // <----------- Limit Max Width based on ViewPort
+      // quality: 'auto',       // <----------- Auto q_auto
+      // format: 'auto',        // <----------- Auto f_auto
+      // limitMaxWidth: true,   // <----------- Limit Max Width based on ViewPort
       additionalRawTransfomrationString: ''
     },
   }
@@ -57,14 +51,7 @@ if (navigator.serviceWorker) {
 
   navigator.serviceWorker.addEventListener('message', event => {
     try {
-
-      // resourcesLoaded: 2
-      // resourcesSkipped: 4
-      // totalOptimizedSize: 15934
-      // totalOriginalSize: 184737
-
       let analyticsData = JSON.parse(event.data);
-      console.log(analyticsData);
 
       document.getElementById('cloudinary-analytics').innerHTML = `
 <span>Assets:${analyticsData.resourcesLoaded.toLocaleString()}</span> 
@@ -77,7 +64,6 @@ if (navigator.serviceWorker) {
   });
 
   // Send a message to the service worker
-  console.log('Sending a message');
   navigator.serviceWorker.ready.then(registration => {
     const analyticsDiv = document.createElement('div');
     analyticsDiv.setAttribute('id', 'cloudinary-analytics');
