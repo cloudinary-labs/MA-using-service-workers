@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run copySW && live-server ./demo/website",
-    "copySW": "cp src/sw.js ./demo/website/sw.js"
+    "start": "live-server ./website"
   },
   "repository": {
     "type": "git",
