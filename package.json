@@ -1,0 +1,11 @@
+{
+  "name": "create-cloudinary-service-worker",
+  "version": "0.1.0",
+  "description": "Cloudinary Service Worker starter kit",
+  "bin": "./src/index.js",
+  "author": "Cloudinary",
+  "license": "MIT",
+  "dependencies": {
+    "yargs": "^16.0.3"
+  }
+}
