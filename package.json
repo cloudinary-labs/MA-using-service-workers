@@ -1,6 +1,6 @@
 {
   "name": "create-cloudinary-service-worker",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Cloudinary Service Worker starter kit",
   "bin": "./src/index.js",
   "author": "Cloudinary",
