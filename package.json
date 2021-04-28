@@ -1,5 +1,5 @@
 {
-  "name": "create-cloudinary-service-worker",
+  "name": "@cloudinary/create-cloudinary-service-worker-lab",
   "version": "0.3.0",
   "description": "Cloudinary Service Worker starter kit",
   "bin": "./src/index.js",

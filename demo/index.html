@@ -17,11 +17,10 @@
     border:2px solid black;
     vertical-align:top;
   }
-
 </style>
 </head>
-<body>
-<h1>
+<body class="dark bo_5 font_7 style_underline">
+<h1 class="with-background remove-background">
   Hi
 </h1>
 <div>
@@ -34,10 +33,14 @@
 
 </div>
 <div id="image-container">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Wikipedia_mini_globe_handheld.jpg"/>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/D%C3%BClmen%2C_Wildpark_--_2014_--_3808_color_balanced.jpg/1000px-D%C3%BClmen%2C_Wildpark_--_2014_--_3808_color_balanced.jpg"/>
+  <img id="first-image" class='best-image' src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Wikipedia_mini_globe_handheld.jpg"/>
+  <img class='best-image extended-image' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/D%C3%BClmen%2C_Wildpark_--_2014_--_3808_color_balanced.jpg/1000px-D%C3%BClmen%2C_Wildpark_--_2014_--_3808_color_balanced.jpg"/>
+  <img class='best-image' src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Rainy_clouds_over_Wild_Mans_Brother_Range%2C_Canterbury%2C_New_Zealand.jpg/3840px-Rainy_clouds_over_Wild_Mans_Brother_Range%2C_Canterbury%2C_New_Zealand.jpg"/>
+  <img class='best-image' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Agence_Rol%2C_24.4.21%2C_concours_de_machines_-_BnF.jpg/2560px-Agence_Rol%2C_24.4.21%2C_concours_de_machines_-_BnF.jpg"/>
 </div>
 
 <script src="./index.js"></script>
+<script src="./cloudinaryServiceWorkerSetup.js"></script>
+
 </body>
 </html>
